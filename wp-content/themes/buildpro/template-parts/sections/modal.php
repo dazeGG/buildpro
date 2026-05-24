@@ -13,7 +13,7 @@
                 </label>
                 <label>
                     <span>Телефон</span>
-                    <input name="phone" type="tel" placeholder="+7 (999) 123-45-67" autocomplete="tel" inputmode="tel" maxlength="18" pattern="^\+7 \([0-9]{3}\) [0-9]{3}-[0-9]{2}-[0-9]{2}$" title="Введите телефон в формате +7 (999) 123-45-67" aria-describedby="bp-phone-hint" data-phone-mask required>
+                    <input name="phone" type="tel" placeholder="+7 (999) 123-45-67" autocomplete="tel" inputmode="tel" maxlength="18" pattern="^\+7 \([0-9]{3}\) [0-9]{3}-[0-9]{2}-[0-9]{2}$" aria-describedby="bp-phone-hint" data-phone-mask required>
                     <small class="bp-field-hint" id="bp-phone-hint">Формат: +7 (999) 123-45-67</small>
                 </label>
                 <button class="bp-btn bp-btn--primary bp-btn--form" type="submit">Отправить заявку</button>

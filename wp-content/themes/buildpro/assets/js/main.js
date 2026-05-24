@@ -23,6 +23,7 @@ document.documentElement.classList.add('js');
     ].join(', ');
     let lastFocusedElement = null;
     let inertTargets = [];
+    const phoneMaskState = new WeakMap();
 
     const isElementVisible = (element) => {
         const rect = element.getBoundingClientRect();
@@ -95,21 +96,23 @@ document.documentElement.classList.add('js');
     };
 
     const getPhoneDigits = (value) => {
+        const normalizedValue = value.trim();
         let digits = value.replace(/\D/g, '');
 
-        if (digits.startsWith('8')) {
-            digits = `7${digits.slice(1)}`;
+        if (!digits) {
+            return '';
         }
 
-        if (digits.startsWith('7')) {
+        if (digits.startsWith('8')) {
+            digits = digits.slice(1);
+        } else if (digits.startsWith('7') && (normalizedValue.startsWith('+7') || digits.length > 10)) {
             digits = digits.slice(1);
         }
 
         return digits.slice(0, 10);
     };
 
-    const formatPhone = (value) => {
-        const digits = getPhoneDigits(value);
+    const formatPhoneDigits = (digits) => {
         const area = digits.slice(0, 3);
         const prefix = digits.slice(3, 6);
         const firstPair = digits.slice(6, 8);
@@ -142,9 +145,29 @@ document.documentElement.classList.add('js');
         return formatted;
     };
 
-    const maskPhoneInput = (input) => {
-        input.value = formatPhone(input.value);
+    const movePhoneCaretToEnd = (input) => {
+        window.requestAnimationFrame(() => {
+            const position = input.value.length;
+            input.setSelectionRange?.(position, position);
+        });
+    };
+
+    const maskPhoneInput = (input, inputType = '') => {
+        const previousState = phoneMaskState.get(input);
+        const isDeleting = inputType === 'deleteContentBackward' || inputType === 'deleteContentForward';
+        let digits = getPhoneDigits(input.value);
+
+        if (isDeleting && previousState && digits === previousState.digits && input.value.length < previousState.value.length) {
+            digits = previousState.digits.slice(0, -1);
+        }
+
+        input.value = formatPhoneDigits(digits);
         input.setCustomValidity('');
+        phoneMaskState.set(input, {
+            digits,
+            value: input.value,
+        });
+        movePhoneCaretToEnd(input);
     };
 
     const trapModalFocus = (event) => {
@@ -618,13 +641,11 @@ document.documentElement.classList.add('js');
 
     phoneInputs.forEach((input) => {
         input.addEventListener('focus', () => {
-            if (!input.value) {
-                input.value = '+7 ';
-            }
+            maskPhoneInput(input);
         });
 
-        input.addEventListener('input', () => {
-            maskPhoneInput(input);
+        input.addEventListener('input', (event) => {
+            maskPhoneInput(input, event.inputType);
         });
 
         input.addEventListener('paste', () => {
@@ -634,6 +655,7 @@ document.documentElement.classList.add('js');
         input.addEventListener('blur', () => {
             if (!getPhoneDigits(input.value).length) {
                 input.value = '';
+                phoneMaskState.delete(input);
             }
         });
     });
