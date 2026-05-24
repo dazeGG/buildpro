@@ -7,6 +7,7 @@ document.documentElement.classList.add('js');
     const modalOpeners = document.querySelectorAll('[data-modal-open]');
     const modalClosers = document.querySelectorAll('[data-modal-close]');
     const leadForm = document.querySelector('[data-lead-form]');
+    const phoneInputs = document.querySelectorAll('[data-phone-mask]');
     const navLinks = document.querySelectorAll('[data-section-link]');
     const revealItems = document.querySelectorAll('.bp-reveal');
     const sections = ['hero', 'features', 'projects', 'stages', 'contacts']
@@ -91,6 +92,59 @@ document.documentElement.classList.add('js');
         const dialog = modal?.querySelector('[role="dialog"]');
 
         (firstFocusable || dialog)?.focus();
+    };
+
+    const getPhoneDigits = (value) => {
+        let digits = value.replace(/\D/g, '');
+
+        if (digits.startsWith('8')) {
+            digits = `7${digits.slice(1)}`;
+        }
+
+        if (digits.startsWith('7')) {
+            digits = digits.slice(1);
+        }
+
+        return digits.slice(0, 10);
+    };
+
+    const formatPhone = (value) => {
+        const digits = getPhoneDigits(value);
+        const area = digits.slice(0, 3);
+        const prefix = digits.slice(3, 6);
+        const firstPair = digits.slice(6, 8);
+        const secondPair = digits.slice(8, 10);
+
+        if (!digits.length) return '';
+
+        let formatted = '+7';
+
+        if (area) {
+            formatted += ` (${area}`;
+        }
+
+        if (area.length === 3) {
+            formatted += ')';
+        }
+
+        if (prefix) {
+            formatted += ` ${prefix}`;
+        }
+
+        if (firstPair) {
+            formatted += `-${firstPair}`;
+        }
+
+        if (secondPair) {
+            formatted += `-${secondPair}`;
+        }
+
+        return formatted;
+    };
+
+    const maskPhoneInput = (input) => {
+        input.value = formatPhone(input.value);
+        input.setCustomValidity('');
     };
 
     const trapModalFocus = (event) => {
@@ -561,6 +615,28 @@ document.documentElement.classList.add('js');
 
     modalOpeners.forEach((button) => button.addEventListener('click', openModal));
     modalClosers.forEach((button) => button.addEventListener('click', closeModal));
+
+    phoneInputs.forEach((input) => {
+        input.addEventListener('focus', () => {
+            if (!input.value) {
+                input.value = '+7 ';
+            }
+        });
+
+        input.addEventListener('input', () => {
+            maskPhoneInput(input);
+        });
+
+        input.addEventListener('paste', () => {
+            window.requestAnimationFrame(() => maskPhoneInput(input));
+        });
+
+        input.addEventListener('blur', () => {
+            if (!getPhoneDigits(input.value).length) {
+                input.value = '';
+            }
+        });
+    });
 
     leadForm?.addEventListener('submit', (event) => {
         event.preventDefault();
