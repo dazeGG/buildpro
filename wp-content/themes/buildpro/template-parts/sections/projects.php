@@ -63,7 +63,7 @@ if (!$projects) {
 
 <section class="bp-section bp-section--projects" id="projects">
     <div class="bp-container">
-        <div class="bp-section-heading bp-section-heading--split">
+        <div class="bp-section-heading bp-section-heading--split bp-reveal">
             <div>
                 <p class="bp-overline">Наши проекты</p>
                 <h2>Реализованные проекты</h2>
@@ -75,8 +75,8 @@ if (!$projects) {
         </div>
 
         <div class="bp-projects-grid">
-            <?php foreach ($projects as $project) : ?>
-                <?php get_template_part('template-parts/cards/project-card', null, ['project' => $project]); ?>
+            <?php foreach ($projects as $index => $project) : ?>
+                <?php get_template_part('template-parts/cards/project-card', null, ['project' => $project, 'delay' => $index * 90]); ?>
             <?php endforeach; ?>
         </div>
     </div>

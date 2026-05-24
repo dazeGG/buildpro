@@ -9,8 +9,8 @@ $badges = [
 <section class="bp-hero" id="hero">
     <div class="bp-hero__media" style="--bp-hero-photo: url(<?php echo esc_url(buildpro_asset_url('img/heroPhoto.jpg')); ?>);"></div>
 
-    <div class="bp-hero__inner">
-        <div class="bp-hero__content fade-up">
+    <div class="bp-container bp-hero__inner">
+        <div class="bp-hero__content bp-reveal is-visible">
             <p class="bp-overline">Качество. Надёжность. Опыт.</p>
             <h1>Строим дома<br>вашей мечты</h1>
             <p class="bp-hero__lead">Строительство современных домов под ключ с&nbsp;гарантией качества и&nbsp;соблюдением сроков.</p>

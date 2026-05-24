@@ -30,14 +30,14 @@ $features = [
 
 <section class="bp-section bp-section--light" id="features">
     <div class="bp-container">
-        <div class="bp-section-heading bp-section-heading--center">
+        <div class="bp-section-heading bp-section-heading--center bp-reveal">
             <p class="bp-overline">Наши преимущества</p>
             <h2>Почему выбирают нас</h2>
         </div>
 
         <div class="bp-features-grid">
-            <?php foreach ($features as $feature) : ?>
-                <article class="bp-feature-card">
+            <?php foreach ($features as $index => $feature) : ?>
+                <article class="bp-feature-card bp-reveal bp-reveal--card" style="--bp-delay: <?php echo esc_attr($index * 90); ?>ms;">
                     <?php buildpro_icon($feature['icon'], 40); ?>
                     <h3><?php echo esc_html($feature['title']); ?></h3>
                     <p><?php echo wp_kses_post($feature['body']); ?></p>

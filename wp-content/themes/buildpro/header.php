@@ -7,6 +7,10 @@
 </head>
 <body <?php body_class('buildpro-theme'); ?>>
 <?php wp_body_open(); ?>
+<?php
+$projects_url = get_post_type_archive_link('project') ?: home_url('/projects/');
+$is_projects_page = is_post_type_archive('project') || is_singular('project');
+?>
 
 <header class="bp-header" data-header>
     <a class="bp-header__logo" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php bloginfo('name'); ?>">
@@ -21,11 +25,8 @@
     </button>
 
     <nav class="bp-nav" id="bp-primary-nav" aria-label="<?php esc_attr_e('Основная навигация', 'buildpro'); ?>">
-        <a class="bp-nav__link is-active" href="#hero" data-section-link="hero">Главная</a>
-        <a class="bp-nav__link" href="#features" data-section-link="features">Услуги</a>
-        <a class="bp-nav__link" href="#projects" data-section-link="projects">Проекты</a>
-        <a class="bp-nav__link" href="#stages" data-section-link="stages">Этапы</a>
-        <a class="bp-nav__link" href="#contacts" data-section-link="contacts">Контакты</a>
+        <a class="bp-nav__link<?php echo is_front_page() ? ' is-active' : ''; ?>" href="<?php echo esc_url(home_url('/')); ?>"<?php echo is_front_page() ? ' aria-current="page"' : ''; ?>>Главная</a>
+        <a class="bp-nav__link<?php echo $is_projects_page ? ' is-active' : ''; ?>" href="<?php echo esc_url($projects_url); ?>"<?php echo $is_projects_page ? ' aria-current="page"' : ''; ?>>Проекты</a>
     </nav>
 
     <div class="bp-header__actions">

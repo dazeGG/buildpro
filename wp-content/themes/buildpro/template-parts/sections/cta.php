@@ -1,5 +1,5 @@
 <section class="bp-cta">
-    <div class="bp-container bp-cta__inner">
+    <div class="bp-container bp-cta__inner bp-reveal">
         <div>
             <p class="bp-overline">Начните сегодня</p>
             <h2>Рассчитайте стоимость дома</h2>

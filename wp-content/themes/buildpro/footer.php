@@ -16,7 +16,7 @@ $footer_columns = [
 ?>
 
 <footer class="bp-footer" id="contacts">
-    <div class="bp-footer__inner">
+    <div class="bp-container bp-footer__inner bp-reveal">
         <div class="bp-footer__brand">
             <img src="<?php echo esc_url(buildpro_asset_url('img/logo-buildpro.svg')); ?>" alt="BuildPro">
             <p>Строим современные дома под ключ с&nbsp;гарантией 5&nbsp;лет и&nbsp;фиксированной сметой.</p>
@@ -39,7 +39,7 @@ $footer_columns = [
         <?php endforeach; ?>
     </div>
 
-    <div class="bp-footer__bottom">
+    <div class="bp-container bp-footer__bottom bp-reveal" style="--bp-delay: 90ms;">
         <span>&copy; <?php echo esc_html(date('Y')); ?> BuildPro. Все права защищены.</span>
         <span>Политика конфиденциальности · Договор оферты</span>
     </div>

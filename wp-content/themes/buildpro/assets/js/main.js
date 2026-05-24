@@ -8,6 +8,7 @@ document.documentElement.classList.add('js');
     const modalClosers = document.querySelectorAll('[data-modal-close]');
     const leadForm = document.querySelector('[data-lead-form]');
     const navLinks = document.querySelectorAll('[data-section-link]');
+    const revealItems = document.querySelectorAll('.bp-reveal');
     const sections = ['hero', 'features', 'projects', 'stages', 'contacts']
         .map((id) => document.getElementById(id))
         .filter(Boolean);
@@ -28,21 +29,45 @@ document.documentElement.classList.add('js');
         return header.getBoundingClientRect().bottom + gap;
     };
 
-    const setHeaderState = () => {
-        if (!header) return;
-        header.classList.toggle('is-scrolled', window.scrollY > 50);
-    };
-
     const setActiveSection = () => {
         if (!navLinks.length || !sections.length) return;
 
-        const y = window.scrollY + 130;
-        const current = sections.reduce((active, section) => {
+        const y = window.scrollY + getScrollOffset() + Math.min(window.innerHeight * 0.28, 180);
+        const isAtPageEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2;
+        const current = isAtPageEnd ? sections[sections.length - 1].id : sections.reduce((active, section) => {
             return section.offsetTop <= y ? section.id : active;
         }, sections[0].id);
 
         navLinks.forEach((link) => {
             link.classList.toggle('is-active', link.dataset.sectionLink === current);
+        });
+    };
+
+    const initReveals = () => {
+        if (!revealItems.length) return;
+
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+            revealItems.forEach((item) => item.classList.add('is-visible'));
+            return;
+        }
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+            });
+        }, {
+            rootMargin: '0px 0px -8% 0px',
+            threshold: 0.16,
+        });
+
+        revealItems.forEach((item) => {
+            if (item.classList.contains('is-visible')) return;
+            revealObserver.observe(item);
         });
     };
 
@@ -113,13 +138,15 @@ document.documentElement.classList.add('js');
     });
 
     window.addEventListener('scroll', () => {
-        setHeaderState();
         setActiveSection();
     }, { passive: true });
 
-    window.addEventListener('resize', syncHeaderHeight, { passive: true });
+    window.addEventListener('resize', () => {
+        syncHeaderHeight();
+        setActiveSection();
+    }, { passive: true });
 
     syncHeaderHeight();
-    setHeaderState();
+    initReveals();
     setActiveSection();
 })();

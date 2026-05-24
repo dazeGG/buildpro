@@ -2,9 +2,10 @@
 $project = $args['project'] ?? [];
 $image = $project['image'] ?? '';
 $fallback = $project['fallback_image'] ?? 'img/proj1.jpg';
+$delay = isset($args['delay']) ? (int) $args['delay'] : 0;
 ?>
 
-<article class="bp-project-card">
+<article class="bp-project-card bp-reveal bp-reveal--card" style="--bp-delay: <?php echo esc_attr($delay); ?>ms;">
     <div class="bp-project-card__media" style="--bp-project-photo: url(<?php echo esc_url(buildpro_image_url($image, $fallback)); ?>);">
         <?php if (!empty($project['area'])) : ?>
             <span><?php echo wp_kses_post($project['area']); ?></span>

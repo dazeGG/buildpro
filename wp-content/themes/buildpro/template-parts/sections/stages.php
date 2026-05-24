@@ -30,14 +30,14 @@ $stages = [
 
 <section class="bp-section bp-section--soft" id="stages">
     <div class="bp-container">
-        <div class="bp-section-heading bp-section-heading--center">
+        <div class="bp-section-heading bp-section-heading--center bp-reveal">
             <p class="bp-overline">Как мы работаем</p>
             <h2>Этапы строительства</h2>
         </div>
 
         <div class="bp-stages">
-            <?php foreach ($stages as $stage) : ?>
-                <article class="bp-stage">
+            <?php foreach ($stages as $index => $stage) : ?>
+                <article class="bp-stage bp-reveal" style="--bp-delay: <?php echo esc_attr($index * 80); ?>ms;">
                     <span class="bp-stage__number"><?php echo esc_html($stage['number']); ?></span>
                     <h3><?php echo wp_kses_post($stage['title']); ?></h3>
                     <p><?php echo wp_kses_post($stage['body']); ?></p>

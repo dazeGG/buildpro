@@ -5,7 +5,7 @@ get_header();
 
 <main class="bp-projects-archive" id="primary">
     <section class="bp-archive-hero">
-        <div class="bp-container">
+        <div class="bp-container bp-reveal is-visible">
             <p class="bp-overline">Наши проекты</p>
             <h1><?php post_type_archive_title(); ?></h1>
             <p>Подборка реализованных домов BuildPro с&nbsp;площадью, регионом и&nbsp;фотографиями объектов.</p>
@@ -16,6 +16,7 @@ get_header();
         <div class="bp-container">
             <?php if (have_posts()) : ?>
                 <div class="bp-projects-grid bp-projects-grid--archive">
+                    <?php $project_index = 0; ?>
                     <?php while (have_posts()) : ?>
                         <?php
                         the_post();
@@ -29,7 +30,9 @@ get_header();
                                 'region' => get_post_meta(get_the_ID(), 'buildpro_project_region', true),
                                 'description' => get_post_meta(get_the_ID(), 'buildpro_project_description', true),
                             ],
+                            'delay' => ($project_index % 6) * 70,
                         ]);
+                        $project_index++;
                         ?>
                     <?php endwhile; ?>
                 </div>
