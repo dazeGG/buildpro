@@ -16,9 +16,29 @@ function buildpro_setup(): void
 }
 add_action('after_setup_theme', 'buildpro_setup');
 
+require_once get_template_directory() . '/inc/post-types.php';
+require_once get_template_directory() . '/inc/project-meta.php';
+
 function buildpro_asset_url(string $path): string
 {
     return get_template_directory_uri() . '/assets/' . ltrim($path, '/');
+}
+
+function buildpro_image_url($image, string $fallback_path): string
+{
+    if (is_numeric($image)) {
+        $url = wp_get_attachment_image_url((int) $image, 'full');
+
+        if ($url) {
+            return $url;
+        }
+    }
+
+    if (is_string($image) && $image !== '') {
+        return $image;
+    }
+
+    return buildpro_asset_url($fallback_path);
 }
 
 function buildpro_icon(string $name, int $size = 24, string $class = ''): void

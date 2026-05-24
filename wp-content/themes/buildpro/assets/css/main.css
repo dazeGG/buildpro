@@ -558,9 +558,12 @@ a {
 }
 
 .bp-project-card {
+    display: block;
     overflow: hidden;
     border-radius: 8px;
     background: #1f1c18;
+    color: inherit;
+    text-decoration: none;
 }
 
 .bp-project-card__media {
@@ -623,6 +626,97 @@ a {
     margin: 0;
     color: #8a867e;
     font-size: 14px;
+}
+
+.bp-project-card__description {
+    margin-top: 12px !important;
+    color: #c8c5bf !important;
+    line-height: 1.55;
+}
+
+.bp-projects-archive {
+    background: var(--bp-ink-900);
+}
+
+.bp-archive-hero {
+    padding: 168px var(--bp-side) 72px;
+    background: var(--bp-ink-900);
+}
+
+.bp-archive-hero h1 {
+    margin: 14px 0 18px;
+    color: var(--bp-white);
+    font-size: 64px;
+    font-weight: 800;
+    line-height: 1.05;
+}
+
+.bp-archive-hero p:not(.bp-overline) {
+    max-width: 620px;
+    margin: 0;
+    color: #c8c5bf;
+    font-size: 18px;
+    line-height: 1.65;
+}
+
+.bp-section--projects-list {
+    background: var(--bp-ink-900);
+    padding-top: 32px;
+}
+
+.bp-projects-grid--archive {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.bp-pagination {
+    margin-top: 48px;
+    color: var(--bp-white);
+}
+
+.bp-pagination .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.bp-pagination a,
+.bp-pagination span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40px;
+    height: 40px;
+    padding-inline: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    color: #c8c5bf;
+    text-decoration: none;
+}
+
+.bp-pagination .current,
+.bp-pagination a:hover {
+    border-color: var(--bp-accent);
+    color: var(--bp-white);
+}
+
+.bp-empty-state {
+    max-width: 620px;
+    padding: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+    background: #1f1c18;
+}
+
+.bp-empty-state h2 {
+    margin: 0 0 12px;
+    color: var(--bp-white);
+    font-size: 28px;
+}
+
+.bp-empty-state p {
+    margin: 0;
+    color: #c8c5bf;
+    line-height: 1.65;
 }
 
 .bp-stages {
@@ -965,7 +1059,8 @@ a {
     }
 
     .bp-features-grid,
-    .bp-projects-grid {
+    .bp-projects-grid,
+    .bp-projects-grid--archive {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
@@ -1100,12 +1195,14 @@ a {
     }
 
     .bp-section-heading h2,
-    .bp-cta h2 {
+    .bp-cta h2,
+    .bp-archive-hero h1 {
         font-size: 34px;
     }
 
     .bp-features-grid,
     .bp-projects-grid,
+    .bp-projects-grid--archive,
     .bp-stages,
     .bp-footer__inner {
         grid-template-columns: 1fr;

@@ -33,6 +33,12 @@ wp-content/themes/buildpro
 
 After WordPress installation, activate the `BuildPro` theme in the admin panel.
 
+For clean project archive URLs, set permalinks in the admin panel:
+
+```text
+Settings -> Permalinks -> Post name
+```
+
 ## Stop
 
 ```bash
