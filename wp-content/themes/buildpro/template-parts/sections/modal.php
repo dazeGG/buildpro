@@ -1,8 +1,6 @@
 <div class="bp-modal" aria-hidden="true" data-modal>
     <div class="bp-modal__overlay" data-modal-close></div>
-    <div class="bp-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="bp-modal-title">
-        <button class="bp-modal__close" type="button" aria-label="Закрыть" data-modal-close>&times;</button>
-
+    <div class="bp-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="bp-modal-title" tabindex="-1">
         <div class="bp-modal__form" data-modal-form-state>
             <p class="bp-overline">Консультация</p>
             <h2 id="bp-modal-title">Рассчитать стоимость</h2>
@@ -27,5 +25,7 @@
             <h2>Заявка отправлена</h2>
             <p>Наш специалист позвонит вам<br>в&nbsp;течение 30&nbsp;минут.</p>
         </div>
+
+        <button class="bp-modal__close" type="button" aria-label="Закрыть" data-modal-close>&times;</button>
     </div>
 </div>

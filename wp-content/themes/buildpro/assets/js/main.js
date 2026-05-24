@@ -12,6 +12,113 @@ document.documentElement.classList.add('js');
     const sections = ['hero', 'features', 'projects', 'stages', 'contacts']
         .map((id) => document.getElementById(id))
         .filter(Boolean);
+    const modalFocusableSelector = [
+        'a[href]',
+        'button:not([disabled])',
+        'input:not([disabled])',
+        'textarea:not([disabled])',
+        'select:not([disabled])',
+        '[tabindex]:not([tabindex="-1"])',
+    ].join(', ');
+    let lastFocusedElement = null;
+    let inertTargets = [];
+
+    const isElementVisible = (element) => {
+        const rect = element.getBoundingClientRect();
+        const style = window.getComputedStyle(element);
+
+        return rect.width > 0 && rect.height > 0 && style.visibility !== 'hidden' && style.display !== 'none';
+    };
+
+    const getModalFocusableElements = () => {
+        if (!modal) return [];
+
+        return [...modal.querySelectorAll(modalFocusableSelector)].filter(isElementVisible);
+    };
+
+    const getInertTargets = () => {
+        if (!modal) return [];
+
+        const targets = new Set();
+
+        [...document.body.children].forEach((element) => {
+            if (element !== modal && !element.contains(modal)) {
+                targets.add(element);
+            }
+        });
+
+        if (modal.parentElement) {
+            [...modal.parentElement.children].forEach((element) => {
+                if (element !== modal) {
+                    targets.add(element);
+                }
+            });
+        }
+
+        return [...targets].filter((element) => !element.contains(modal));
+    };
+
+    const setPageInert = (shouldInert) => {
+        if (!modal) return;
+
+        if (shouldInert) {
+            inertTargets = getInertTargets();
+            inertTargets.forEach((element) => {
+                element.dataset.bpModalHadAriaHidden = element.hasAttribute('aria-hidden') ? 'true' : 'false';
+                element.dataset.bpModalPreviousAriaHidden = element.getAttribute('aria-hidden') || '';
+                element.setAttribute('aria-hidden', 'true');
+                element.setAttribute('inert', '');
+            });
+            return;
+        }
+
+        inertTargets.forEach((element) => {
+            if (element.dataset.bpModalHadAriaHidden === 'true') {
+                element.setAttribute('aria-hidden', element.dataset.bpModalPreviousAriaHidden || '');
+            } else {
+                element.removeAttribute('aria-hidden');
+            }
+
+            element.removeAttribute('inert');
+            delete element.dataset.bpModalHadAriaHidden;
+            delete element.dataset.bpModalPreviousAriaHidden;
+        });
+        inertTargets = [];
+    };
+
+    const focusFirstModalElement = () => {
+        const firstFocusable = modal?.querySelector('input, textarea, select') || getModalFocusableElements()[0];
+        const dialog = modal?.querySelector('[role="dialog"]');
+
+        (firstFocusable || dialog)?.focus();
+    };
+
+    const trapModalFocus = (event) => {
+        if (!modal?.classList.contains('is-open')) return;
+
+        const focusableElements = getModalFocusableElements();
+
+        if (!focusableElements.length) {
+            event.preventDefault();
+            modal.querySelector('[role="dialog"]')?.focus();
+            return;
+        }
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+        const activeElement = document.activeElement;
+
+        if (event.shiftKey && (activeElement === firstElement || !modal.contains(activeElement))) {
+            event.preventDefault();
+            lastElement.focus();
+            return;
+        }
+
+        if (!event.shiftKey && activeElement === lastElement) {
+            event.preventDefault();
+            firstElement.focus();
+        }
+    };
 
     const syncHeaderHeight = () => {
         if (!header) return;
@@ -406,22 +513,28 @@ document.documentElement.classList.add('js');
 
     const openModal = () => {
         if (!modal) return;
+        lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null;
         modal.classList.add('is-open');
         modal.classList.remove('is-sent');
         modal.setAttribute('aria-hidden', 'false');
         document.body.classList.add('modal-open');
         closeMenu();
+        setPageInert(true);
 
-        const input = modal.querySelector('input');
-        window.setTimeout(() => input?.focus(), 80);
+        window.setTimeout(focusFirstModalElement, 80);
     };
 
-    const closeModal = () => {
+    const closeModal = (restoreFocus = true) => {
         if (!modal) return;
         modal.classList.remove('is-open', 'is-sent');
         modal.setAttribute('aria-hidden', 'true');
         document.body.classList.remove('modal-open');
+        setPageInert(false);
         leadForm?.reset();
+
+        if (restoreFocus && lastFocusedElement?.isConnected) {
+            lastFocusedElement.focus();
+        }
     };
 
     menuToggle?.addEventListener('click', () => {
@@ -457,6 +570,11 @@ document.documentElement.classList.add('js');
     });
 
     document.addEventListener('keydown', (event) => {
+        if (event.key === 'Tab') {
+            trapModalFocus(event);
+            return;
+        }
+
         if (event.key === 'Escape') {
             closeModal();
             closeMenu();
