@@ -16,6 +16,27 @@ function buildpro_setup(): void
 }
 add_action('after_setup_theme', 'buildpro_setup');
 
+function buildpro_asset_url(string $path): string
+{
+    return get_template_directory_uri() . '/assets/' . ltrim($path, '/');
+}
+
+function buildpro_icon(string $name, int $size = 24, string $class = ''): void
+{
+    $classes = trim('bp-icon ' . $class);
+    $style = sprintf(
+        '--bp-icon: url(%s); --bp-icon-size: %dpx;',
+        esc_url(buildpro_asset_url('icons/' . $name . '.svg')),
+        $size
+    );
+
+    printf(
+        '<span class="%s" aria-hidden="true" style="%s"></span>',
+        esc_attr($classes),
+        esc_attr($style)
+    );
+}
+
 function buildpro_assets(): void
 {
     $theme_uri = get_template_directory_uri();
