@@ -7,7 +7,16 @@ $badges = [
 ?>
 
 <section class="bp-hero" id="hero">
-    <div class="bp-hero__media" style="--bp-hero-photo: url(<?php echo esc_url(buildpro_asset_url('img/heroPhoto.jpg')); ?>);"></div>
+    <div class="bp-hero__media" aria-hidden="true">
+        <img
+            src="<?php echo esc_url(buildpro_asset_url('img/heroPhoto.webp')); ?>"
+            alt=""
+            width="1600"
+            height="1067"
+            fetchpriority="high"
+            decoding="async"
+        >
+    </div>
 
     <div class="bp-container bp-hero__inner">
         <div class="bp-hero__content bp-reveal is-visible">

@@ -2,28 +2,28 @@
 $fallback_projects = [
     [
         'image' => '',
-        'fallback_image' => 'img/proj1.jpg',
+        'fallback_image' => 'img/proj1.webp',
         'area' => '250&nbsp;м²',
         'title' => 'Современный дом в&nbsp;КП «Ривьера»',
         'region' => 'Московская область',
     ],
     [
         'image' => '',
-        'fallback_image' => 'img/proj2.jpg',
+        'fallback_image' => 'img/proj2.webp',
         'area' => '180&nbsp;м²',
         'title' => 'Дом в&nbsp;стиле Хай-Тек',
         'region' => 'Ленинградская область',
     ],
     [
         'image' => '',
-        'fallback_image' => 'img/proj3.jpg',
+        'fallback_image' => 'img/proj3.webp',
         'area' => '320&nbsp;м²',
         'title' => 'Коттедж с&nbsp;плоской кровлей',
         'region' => 'Московская область',
     ],
     [
         'image' => '',
-        'fallback_image' => 'img/proj4.jpg',
+        'fallback_image' => 'img/proj4.webp',
         'area' => '210&nbsp;м²',
         'title' => 'Дом с&nbsp;панорамными окнами',
         'region' => 'Тверская область',
@@ -45,7 +45,7 @@ if ($projects_query->have_posts()) {
 
         $projects[] = [
             'image' => get_post_thumbnail_id(),
-            'fallback_image' => 'img/proj' . ((count($projects) % 4) + 1) . '.jpg',
+            'fallback_image' => 'img/proj' . ((count($projects) % 4) + 1) . '.webp',
             'area' => get_post_meta(get_the_ID(), 'buildpro_project_area', true),
             'title' => get_the_title(),
             'region' => get_post_meta(get_the_ID(), 'buildpro_project_region', true),

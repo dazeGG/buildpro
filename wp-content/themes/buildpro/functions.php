@@ -16,6 +16,9 @@ function buildpro_setup(): void
 }
 add_action('after_setup_theme', 'buildpro_setup');
 
+remove_action('wp_head', 'print_emoji_detection_script', 7);
+remove_action('wp_print_styles', 'print_emoji_styles');
+
 require_once get_template_directory() . '/inc/post-types.php';
 require_once get_template_directory() . '/inc/project-meta.php';
 
@@ -78,3 +81,15 @@ function buildpro_assets(): void
     );
 }
 add_action('wp_enqueue_scripts', 'buildpro_assets');
+
+function buildpro_trim_wordpress_assets(): void
+{
+    if (!is_front_page() && !is_post_type_archive('project')) {
+        return;
+    }
+
+    wp_dequeue_style('wp-block-library');
+    wp_dequeue_style('classic-theme-styles');
+    wp_dequeue_style('global-styles');
+}
+add_action('wp_enqueue_scripts', 'buildpro_trim_wordpress_assets', 20);

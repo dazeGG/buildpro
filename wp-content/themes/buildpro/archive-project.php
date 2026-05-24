@@ -24,7 +24,7 @@ get_header();
                         get_template_part('template-parts/cards/project-card', null, [
                             'project' => [
                                 'image' => get_post_thumbnail_id(),
-                                'fallback_image' => 'img/proj1.jpg',
+                                'fallback_image' => 'img/proj1.webp',
                                 'area' => get_post_meta(get_the_ID(), 'buildpro_project_area', true),
                                 'title' => get_the_title(),
                                 'region' => get_post_meta(get_the_ID(), 'buildpro_project_region', true),
