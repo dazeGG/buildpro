@@ -1,0 +1,15 @@
+.env
+.DS_Store
+.idea/
+
+# Local WordPress/runtime data is stored in Docker volumes.
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/debug.log
+
+# Dependencies/build output if the theme grows later.
+node_modules/
+vendor/
+dist/
+build/
