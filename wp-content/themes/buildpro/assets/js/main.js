@@ -268,6 +268,9 @@ document.documentElement.classList.add('js');
             '.bp-lead-form input',
             '.bp-text-link',
             '.bp-section-nav__link',
+            '.bp-footer__social',
+            '.bp-footer__link',
+            '.bp-footer__bottom a',
         ].join(', ');
         const canUseMagneticCursor = () => pointerQuery.matches && !motionQuery.matches && window.innerWidth > 900;
         let cleanup = null;
@@ -321,6 +324,7 @@ document.documentElement.classList.add('js');
                     targetY: 0,
                     rect: element.getBoundingClientRect(),
                     isInput: element.matches('input'),
+                    isRound: element.matches('.bp-footer__social'),
                     settled: true,
                 };
 
@@ -383,11 +387,13 @@ document.documentElement.classList.add('js');
                 visual.activeItem = item;
                 item.rect = item.element.getBoundingClientRect();
                 const computedRadius = parseFloat(window.getComputedStyle(item.element).borderTopLeftRadius);
-                const magneticRadius = item.isInput
-                    ? 8
-                    : Number.isFinite(computedRadius) && computedRadius > 0
-                        ? Math.min(computedRadius + 2, 12)
-                        : 8;
+                const magneticRadius = item.isRound
+                    ? 999
+                    : item.isInput
+                        ? 8
+                        : Number.isFinite(computedRadius) && computedRadius > 0
+                            ? Math.min(computedRadius + 2, 12)
+                            : 8;
 
                 item.surfaceElement?.style.setProperty('--bp-magnetic-radius', `${magneticRadius}px`);
                 item.element.classList.add('is-magnetic-active', 'is-magnetic-inside');
