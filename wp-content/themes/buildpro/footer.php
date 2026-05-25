@@ -94,9 +94,14 @@ $footer_columns = [
     <div class="bp-container bp-footer__bottom bp-reveal" style="--bp-delay: 90ms;">
         <span>&copy; <?php echo esc_html(date('Y')); ?> BuildPro. Все права защищены.</span>
         <span class="bp-footer__bottom-links">
-            <a href="<?php echo esc_url(home_url('/privacy-policy/')); ?>">Политика конфиденциальности</a>
-            <span aria-hidden="true">·</span>
-            <a href="<?php echo esc_url(home_url('/offer/')); ?>">Договор оферты</a>
+            <a href="<?php echo esc_url('https://github.com/dazeGG/buildpro'); ?>" target="_blank" rel="noopener noreferrer">
+                <?php buildpro_icon('github', 16); ?>
+                <span>dazeGG/buildpro</span>
+            </a>
+            <a href="<?php echo esc_url('https://t.me/chilovchik'); ?>" target="_blank" rel="noopener noreferrer">
+                <?php buildpro_icon('telegram', 16); ?>
+                <span>Telegram</span>
+            </a>
         </span>
     </div>
 </footer>
