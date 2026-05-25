@@ -429,6 +429,7 @@ a {
 .bp-header__phone.bp-magnetic,
 .bp-nav__link.bp-magnetic,
 .bp-section-nav__link.bp-magnetic,
+.bp-footer__logo.bp-magnetic,
 .bp-footer__social.bp-magnetic,
 .bp-footer__link.bp-magnetic,
 .bp-footer__bottom a.bp-magnetic,
@@ -446,6 +447,7 @@ a {
 .bp-nav__link:focus-visible,
 .bp-text-link:focus-visible,
 .bp-menu-toggle:focus-visible,
+.bp-footer__logo:focus-visible,
 .bp-footer__social:focus-visible,
 .bp-footer__link:focus-visible,
 .bp-footer__bottom a:focus-visible,
@@ -1076,10 +1078,16 @@ a {
     gap: 56px;
 }
 
-.bp-footer__brand img {
+.bp-footer__logo {
+    display: inline-flex;
+    width: fit-content;
+    margin-bottom: 24px;
+    text-decoration: none;
+}
+
+.bp-footer__logo img {
     width: 188px;
     height: auto;
-    margin-bottom: 24px;
 }
 
 .bp-footer__brand p {
@@ -1096,7 +1104,7 @@ a {
 }
 
 .bp-footer__social {
-    --bp-magnetic-radius: 999px;
+    --bp-magnetic-radius: 12px;
     display: inline-flex;
     align-items: center;
     justify-content: center;

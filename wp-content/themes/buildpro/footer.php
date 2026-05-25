@@ -58,7 +58,9 @@ $footer_columns = [
 <footer class="bp-footer" id="contacts">
     <div class="bp-container bp-footer__inner bp-reveal">
         <div class="bp-footer__brand">
-            <img src="<?php echo esc_url(buildpro_asset_url('img/logo-buildpro.svg')); ?>" alt="BuildPro">
+            <a class="bp-footer__logo" href="<?php echo esc_url(home_url('/')); ?>" aria-label="<?php echo esc_attr(sprintf('На главную %s', get_bloginfo('name'))); ?>">
+                <img src="<?php echo esc_url(buildpro_asset_url('img/logo-buildpro.svg')); ?>" alt="">
+            </a>
             <p>Строим современные дома под ключ с&nbsp;гарантией 5&nbsp;лет и&nbsp;фиксированной сметой.</p>
             <div class="bp-footer__socials">
                 <?php foreach ($footer_socials as $social) : ?>
