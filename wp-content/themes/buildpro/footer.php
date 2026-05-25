@@ -91,7 +91,7 @@ $footer_columns = [
         <?php endforeach; ?>
     </div>
 
-    <div class="bp-container bp-footer__bottom bp-reveal" style="--bp-delay: 90ms;">
+    <div class="bp-container bp-footer__bottom">
         <span>&copy; <?php echo esc_html(date('Y')); ?> BuildPro. Все права защищены.</span>
         <span class="bp-footer__bottom-links">
             <a href="<?php echo esc_url('https://github.com/dazeGG/buildpro'); ?>" target="_blank" rel="noopener noreferrer">
