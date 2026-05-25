@@ -98,6 +98,7 @@ $footer_columns = [
                 <?php buildpro_icon('github', 16); ?>
                 <span>dazeGG/buildpro</span>
             </a>
+            |
             <a href="<?php echo esc_url('https://t.me/chilovchik'); ?>" target="_blank" rel="noopener noreferrer">
                 <?php buildpro_icon('telegram', 16); ?>
                 <span>Telegram</span>
