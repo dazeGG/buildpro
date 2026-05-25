@@ -1239,11 +1239,11 @@ a {
 }
 
 .bp-lead-form label.bp-magnetic-surface::before {
-    top: auto;
+    top: 19px;
     right: -8px;
-    bottom: -5px;
+    bottom: auto;
     left: -8px;
-    height: 62px;
+    height: 60px;
 }
 
 .bp-lead-form input {
