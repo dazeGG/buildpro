@@ -1168,7 +1168,13 @@ a {
 .bp-footer__bottom-links {
     display: inline-flex;
     flex-wrap: wrap;
+    align-items: center;
     gap: 8px;
+}
+
+.bp-footer__divider {
+    color: rgba(var(--bp-white-pure-rgb), 0.22);
+    line-height: 1;
 }
 
 .bp-footer__bottom {
