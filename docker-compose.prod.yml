@@ -7,27 +7,6 @@ x-logging: &default-logging
     max-file: "3"
 
 services:
-  caddy:
-    image: ${CADDY_IMAGE:-caddy:2-alpine}
-    container_name: buildpro_caddy
-    restart: unless-stopped
-    depends_on:
-      - wordpress
-    ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp"
-    environment:
-      SITE_DOMAIN: ${SITE_DOMAIN:?Set SITE_DOMAIN in .env.production}
-      ACME_EMAIL: ${ACME_EMAIL:?Set ACME_EMAIL in .env.production}
-    volumes:
-      - ./docker/caddy/Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy_data:/data
-      - caddy_config:/config
-    security_opt:
-      - no-new-privileges:true
-    logging: *default-logging
-
   wordpress:
     image: ${WORDPRESS_IMAGE:-wordpress:php8.3-apache}
     container_name: buildpro_wordpress
@@ -35,8 +14,8 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    expose:
-      - "80"
+    ports:
+      - "127.0.0.1:${WORDPRESS_HTTP_PORT:-8081}:80"
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_NAME: ${MYSQL_DATABASE:?Set MYSQL_DATABASE in .env.production}
@@ -85,5 +64,3 @@ services:
 volumes:
   wordpress_data:
   db_data:
-  caddy_data:
-  caddy_config:
